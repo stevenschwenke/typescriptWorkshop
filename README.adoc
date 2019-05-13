@@ -21,6 +21,36 @@ image::typeCheckingWithCtrlB.png[]
 
 * ES6 also brings types, but not yet supported by all browsers
 
+== Installation
+1. https://www.npmjs.com/get-npm[install NPM]
+1. install TypeScript via
+
+[source, terminal]
+----
+npm -g install typescript
+----
+
+== Compile TypeScript to JavaScript
+1. navigate to where your ts file is located
+1. compile with filename without ".ts", so for example to compile _script.ts_, do:
+
+[source, terminal]
+----
+tsc script
+----
+
+
+
+
+
+
+
+
+
+
+
+== Features
+
 === Automatic Creation of Properties
 * instead of writing this:
 
