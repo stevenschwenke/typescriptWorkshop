@@ -4,6 +4,8 @@
 :sectnums:
 :imagesdir: images
 
+These are notes and code snippets from the Udemy Workshop https://www.udemy.com/course/understanding-typescript/[Understanding TypeScript]. Although this repository here uses code snippets from the Udemy Workshop, the original course is very much recommended.
+
 == Introduction
 * = superset of Java Script, which is a new statically, strongly-typed programming language on top of Java Script
 * doesn't run in the browser, has to be compiled - that's what the CLI is for!
