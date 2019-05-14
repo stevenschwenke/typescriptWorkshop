@@ -41,13 +41,44 @@ npm -g install typescript
 tsc script
 ----
 
-
-
-
-
-
-
-
+== Setup for this workshop
+* put project folder under control of NPM:
+[source, terminal]
+----
+npm init
+----
+* will create a package.json
+* install lite-server:
+[source, terminal]
+----
+npm install lite-server --save-dev
+----
+* add script to start server (in _package.json_):
+[source, terminal]
+----
+"scripts": {
+    ...
+    "start": "lite-server"
+----
+* start server with
+[source, terminal]
+----
+npm start
+----
+* server will automatically react on changes in the codebase
+* application on localhost:3000
+* make folder managed by TypeScript with
+[source, terminal]
+----
+tsc --init
+----
+* will create a _tsconfig.json_-file
+* that way, all TypeScript files will be compiled with only
+[source, terminal]
+----
+tsc
+----
+* attention: keep lite-server running in different terminal-tab!
 
 
 
