@@ -80,7 +80,59 @@ tsc
 ----
 * attention: keep lite-server running in different terminal-tab!
 
+== Types
+[source, javascript]
+----
+// implicit declaration:
+let myString = 'myString';   // implicit string
+//myString = 42;             // error!
 
+let myNumber = 42;           // implicit number
+//myNumber = 'anyString';    // error!
+
+let myBoolean = true;        // implicit boolean
+//myBoolean = 1;             //error, despite the fact that "1" could be interpreted as "true"
+
+let myVariable;              // type = 'any', from JavaScript
+myVariable = 12;             // OK
+myVariable = '12';           // OK because 'any' gets overridden
+
+// explizit declaration:
+let myExplicitNumber: number;
+myExplicitNumber = 12;       // OK
+myExplicitNumber = '12';     // error!
+
+let myArray = ["bla", "blubber"];
+console.log(typeof myArray);        // prints "object"; however: TypeScript only allows strings in this array ...
+myArray = [42];              // ... this will cause an error
+myArray = ["42"];            // OK
+
+let myArray: string[] = ["bla", "blubber"];     // explicit array of strings
+
+// tuples = new type in TypeScript (not available in JavaScript)
+let address: [string, number] = ["aString", 42];
+
+// enum
+enum Color {
+    Red,
+    Green,
+    Blue
+}
+let myColor: Color = Color.Red;
+
+// Internally represented as number (0-based). Can be configured differently:
+enum Color {
+    Red = 42,
+    Green = 43,
+    Blue = 44
+}
+
+// any => use only in exceptional cases!
+let blubber: any = "aString";
+blubber = 42;           // OK
+----
+
+* types are removed in JavaScript!
 
 == Features
 
