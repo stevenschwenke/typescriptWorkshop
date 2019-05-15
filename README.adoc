@@ -24,8 +24,8 @@ image::typeCheckingWithCtrlB.png[]
 * ES6 also brings types, but not yet supported by all browsers
 
 == Installation
-1. https://www.npmjs.com/get-npm[install NPM]
-1. install TypeScript via
+. https://www.npmjs.com/get-npm[install NPM]
+. install TypeScript via
 
 [source, terminal]
 ----
@@ -33,8 +33,8 @@ npm -g install typescript
 ----
 
 == Compile TypeScript to JavaScript
-1. navigate to where your ts file is located
-1. compile with filename without ".ts", so for example to compile _script.ts_, do:
+. navigate to where your ts file is located
+. compile with filename without ".ts", so for example to compile _script.ts_, do:
 
 [source, terminal]
 ----
@@ -130,6 +130,93 @@ enum Color {
 // any => use only in exceptional cases!
 let blubber: any = "aString";
 blubber = 42;           // OK
+
+//functions
+function getSomeString(): string {
+    return "some string";
+}
+
+function noReturnValue(): void {
+    //return "some string";       // error because no return expected
+}
+
+// argument types
+function myFunction(v1: number, v2: number): number {
+    return v1 + v2;
+}
+
+// function types
+let myFunctionAsAVariable: (val1: number, val2: number) => number;
+myFunctionAsAVariable = myFunction;
+myFunctionAsAVariable(1, 2);
+
+ let myFunctionAsAVariable2: () => void;
+ myFunctionAsAVariable2 = noReturnValue;
+
+// objects
+let myData = {
+    aString: "myString",
+    aNumber: 42
+};
+
+myData = {};
+// error: "not assignable" because TypeScript automatically assigned a type with the two attributes (aString and aNumber)
+
+myData = {
+    anotherString: "myString",
+    anotherNumber: 42
+};
+// error: names don't match!
+
+let myData: {aString: string, aNumber: number} = {
+    aString: "myString",
+    aNumber: 42
+};
+
+// type alias
+// = storing a type; alternative  to class
+type MyType = {aString: string, aNumber: number};
+let x: MyType = {
+    aString: "blubber",
+    aNumber: 12
+}
+
+// union types
+// sometimes more than one type should be appliable, but not just "any"
+let someUncertainInput: any = 12;
+someUncertainInput = "12"           // OK
+someUncertainInput = false          // OK, but only number or strings should work
+
+let someUncertainInput2: number | string = 12;
+someUncertainInput2 = "12"           // OK
+//someUncertainInput2 = false          // error
+
+// check types
+let value = "a string";
+if(typeof value == "string") {
+    // ...
+}
+
+// new types (since TypeScript 2.0)
+// 1. "never", when a function never returns:
+function neverReturns(): never {
+    throw new Error("blubber");
+}
+
+// 2. nullable types:
+let canBeNull = 12;
+canBeNull = null;       // OK
+
+// in tsConfig.json:
+// "strictNullChecks": true
+
+let canBeNull = 12;
+canBeNull = null;
+// error: 'null' is not assignable to type 'number' because canBeNull was initialized to be a (not-nullable) number
+
+let canBeNull: number | null = 12;
+canBeNull = null;       // OK again
+
 ----
 
 * types are removed in JavaScript!
