@@ -219,7 +219,40 @@ canBeNull = null;       // OK again
 
 ----
 
+== TypeScript Compiler
+=== Types
 * types are removed in JavaScript!
+* default behavior of TypeScript compiler: compile to JavaScript, even when there are errors
+* compiling despite errors can be disabled in _tsconfig.json_ with
+[source, properties]
+----
+"noEmitOnError": true
+----
+
+=== SourceMaps
+* mapping between TypeScript and JavaScript
+* enable in _tsconfig.json_ with:
+[source, properties]
+----
+"sourceMap": true
+----
+* with that, _app.js.map_ is created
+* used by browser to enable debugging
+
+=== noImplicitAny
+[source, javascript]
+----
+let anything;       // will get type "any"
+anything = 12;
+----
+* type of _any_ automatically assigned
+* can be disabled in _tsconfig.json_ with:
+[source, properties]
+----
+"noImplicitAny": true
+----
+* now, compiler will throw error for above code
+* forces programmer to use proper types
 
 == Features
 
