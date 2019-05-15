@@ -254,6 +254,150 @@ anything = 12;
 * now, compiler will throw error for above code
 * forces programmer to use proper types
 
+== ES6
+* TypeScript supports many features of ES6
+
+=== let & const
+* _var_ = global scope, around since JavaScript, don't use!
+* _let_ = block-scoped = only visible inside block
+* _const_ = constant, not changable
+
+[source,javascript]
+----
+let myVariable = "blubber";
+myVariable = "another blubber";     // OK
+
+const anotherVariable = 100;
+//anotherVariable = 200;              // error
+
+function reset() {
+    let myVariable = "blubber in function";
+    console.log(myVariable);        // "blubber in function"
+}
+reset();
+console.log(myVariable);            // "another blubber"
+----
+
+=== Arrow Functions
+[source,javascript]
+----
+// normal function:
+const addNumbers = function(number1: number, number2: number): number {
+    return number1 + number2;
+}
+
+// arrow function short syntax:
+const multiplyNumbers = (number1: number, number2: number) => number1 * number2;
+
+// arrow function long syntax:
+const multiplyNumbers = (number1: number, number2: number) => {
+    // do something else here
+    return number1 * number2;
+}
+
+// one argument:
+const doStuff = myVariable => console.log(myVariable);
+
+// without arguments:
+const doLog = () => {
+    console.out("log");
+}
+----
+
+=== Default Parameters
+[source,javascript]
+----
+const simpleFunction = (myParameter: number = 1): void => {
+    console.out(myParameter);
+}
+simpleFunction(42);     // OK - will print 42
+simpleFunction();       // OK - will print 1
+----
+
+=== Rest & Spread Operators
+* same syntax ("_..._") for two different use cases:
+** spread-operator used when function is called to spread out array
+** rest-operator used in function signature to aggregate list of values to an array
+
+[source,javascript]
+----
+const numbers = [1, 2, 3];
+Math.max(4, 5, 6);      // OK
+Math.max(numbers);      // error because no array allowed here
+
+// spread-operator spreads the contents of the array into a list of values:
+Math.max(...numbers);   // OK
+
+// rest-parameter: function that gets list of numbers as parameters and returns an array:
+function makeArray(...args: number) {
+    return args;
+}
+makeArray(1, 2, 3);     // OK
+----
+
+* attention: in a function where some parameters that should NOT be combined and some that should be combined: combine-parameters have to be the last ones!
+* since TypeScript 3, rest operator working also with tuples:
+
+[source,javascript]
+----
+function foo(...myObject: [number, boolean]) {
+    // ...
+}
+----
+
+=== Destructuring
+* instead of picking every single array element one by one, all elements can be extracted from an array:
+
+[source,javascript]
+----
+const myArray = [1, 2, 3];
+const [number1, number2, number3] = myArray;
+----
+
+* result:
+** _number1_ is _1_,
+** _number2_ is _2_,
+** _number3_ is _3_
+* works also for objects:
+
+[source,javascript]
+----
+const myObject = {foo: "foo", bar: 42};
+const {foo, bar} = myObject;
+----
+
+* result:
+** _foo_ is "_foo_"
+** _bar_ is _42_
+
+* also possible: renaming variables:
+
+[source,javascript]
+----
+const myObject = {foo: "foo", bar: 42};
+const {foo2, bar2} = myObject;
+----
+
+* result:
+** _foo_ is undefined
+** _bar_ is undefined
+** _foo2_ is "_foo_"
+** _bar2_ is _42_
+
+=== Template Literals
+* = strings with more features
+* created with _``_
+
+[source,javascript]
+----
+const myString = "myString";
+const message = `Here is a message.
+It's multilined!
+Here is another string: ${myString}.
+`;
+----
+
+
 == Features
 
 === Automatic Creation of Properties
