@@ -497,7 +497,35 @@ let myClass = new MyClass();
 myClass.myProperty = "x";       // error
 ----
 
+== Namespaces
+* only make sense for small projects; use modules for bigger projects!
 
+[source,javascript]
+----
+namesapce MyNamespace1 {
+    const MYCONST = "blubber";
+
+    export function blubberize(content: string): string {
+        return content + MYCONST;
+    }
+}
+
+console.log(MyNamespace1.blubberize("my string is "));
+----
+
+* important: functions in namespaces have to have an _export_ to be used outside of the namespace
+* namespaces can extend over multiple files, just "declare" them in different files and import those files to the classes where they are used:
+
+[source, javascript]
+----
+/// <reference path="myNamespace1.ts" />
+/// <reference path="myFile2.ts" />
+
+// normal code where you can use the new namespace:
+console.log(MyNamespace1.blubberize("my string is "));
+----
+
+* also possible to have namespaces in namespaces
 
 == Features
 
