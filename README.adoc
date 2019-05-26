@@ -397,6 +397,107 @@ Here is another string: ${myString}.
 `;
 ----
 
+== Classes
+
+* also possible to create classes in ES6, but with less features like private properties
+* _private_ properties only accessible within the object; _protected_ attributes additionally accessible in every object that inherits this object
+
+[source,javascript]
+----
+class Person {
+    name: string;
+    private type: string;
+    protected age: number;
+
+    constructor(name: string, public username: string) {
+        this.name = name;
+    }
+
+   printAge() {
+        console.log(this.age);
+   }
+
+   setType(type: string) {
+        this.type = type;
+   }
+}
+
+const person = new Person("Peter", "peter");
+----
+
+=== Inheritance
+[source,javascript]
+----
+class Customer extends Person {
+
+    constructor(username: string) {
+        super("customer", username);        // super() necessary as first call in constructor!
+        this.age = 42;                      // OK
+        //this.type = "impossible!"           // error because "private"
+    }
+}
+
+const customer = new Customer("myusername");
+----
+
+=== Getters and Setters
+
+* setters look like methods, but are not methods in TypeScript
+
+[source,javascript]
+----
+class MyClass {
+
+    private myAttribute: string;
+
+    set setMyAttribute(value: string) {
+        this.myAttribute = value;
+    }
+
+    get getMyAttribute() {
+        return this.myAttribute;
+    }
+}
+
+let myClass = new MyClass();
+console.log(myClass.getMyAttribute);        // getMyAttribute is not a function!
+myClass.setMyAttribute = "foo";             // setter also not a function!
+----
+
+=== Static Properties and Methods
+[source,javascript]
+----
+class Helpers {
+    static PI: number = 3.14;
+    static doStuff(): void {}
+}
+
+Helpers.PI;
+Helpers.doStuff();
+----
+
+=== Abstract Classes
+* can't be instantiated directly, only by inheriting them
+
+[source,javascript]
+----
+abstract class MyAbstractClass {
+    // ...
+}
+----
+
+=== Readonly Properties
+[source, javascript]
+----
+class MyClass {
+    constructor(public readonly myProperty: string) {}
+}
+
+let myClass = new MyClass();
+myClass.myProperty = "x";       // error
+----
+
+
 
 == Features
 
