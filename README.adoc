@@ -527,6 +527,31 @@ console.log(MyNamespace1.blubberize("my string is "));
 
 * also possible to have namespaces in namespaces
 
+== Modules
+* classes, functions and attributes with _export_ can be imported in other classes like this:
+
+[source,javascript]
+----
+import { MYCONSTANT, myFunction } from "./myPath/myClassWithoutFileEnding";
+----
+
+* native JavaScript doesn' support module, hence module loader required (not contained in this course)
+* also possible to use an alias:
+
+[source,javascript]
+----
+import * as MyAlias from "./myPath/myClassWithoutFileEnding";
+----
+
+* above is a relative path, which will be resolved in local project
+* absolute paths like this one will be resolved in _node_modules_ folder:
+
+[source,javascript]
+----
+import { Component } from "@angular/core";
+----
+
+
 == Features
 
 === Automatic Creation of Properties
