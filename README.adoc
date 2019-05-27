@@ -6,6 +6,8 @@
 
 These are notes and code snippets from the Udemy Workshop https://www.udemy.com/course/understanding-typescript/[Understanding TypeScript]. Although this repository here uses code snippets from the Udemy Workshop, the original course is very much recommended.
 
+I left out some explanations and examples because for me as a Java developer, TypeScript is very similar to Java. Hence, this is not a workshop to learn TypeScript from scratch without knowing at least one other object oriented language.
+
 == Introduction
 * = superset of Java Script, which is a new statically, strongly-typed programming language on top of Java Script
 * doesn't run in the browser, has to be compiled - that's what the CLI is for!
@@ -551,6 +553,109 @@ import * as MyAlias from "./myPath/myClassWithoutFileEnding";
 import { Component } from "@angular/core";
 ----
 
+== Interfaces
+* no in-depth discussion about what object-oriented programming is here, but in short: interface = contract that a class promises to fulfill.
+* in this example, _person_ is an object that has to have a _name_ (and possibly other attributes):
+
+[source,javascript]
+----
+function print(person: { name: string} ) {
+    console.log(person.name);
+}
+----
+
+* to make contract reusable in multiple classes, extract as interface:
+
+[source,javascript]
+----
+interface Person {
+    name: string;
+}
+
+function print(person: Person ) {
+    console.log(person.name);
+}
+----
+
+=== Optional Properties
+* interfaces may have optional properties:
+
+[source,javascript]
+----
+interface Person {
+    name: string;
+    age?: number;
+}
+
+const myPerson = { name: "bla" });
+
+// OK, even with missing age
+print(myPerson);
+
+// Only OK with optional argument in interface! Without it: error.
+print({ name: "bla", age: 42 });
+----
+
+* Optional properties important because TypeScript checks direct arguments (passing objects literals directly to function) more strictly than when passing the same objects, but assigned to a constant first (like _const myPerson_).
+
+* if additional properties not known when defining the interface:
+
+[source,javascript]
+----
+interface Person {
+    name: string;
+    age?: number;
+    [ myTempName: string ]: any;
+}
+----
+
+* _[ ]_ is not an array, but a special notation!
+* _[ ]_ contains the name of the key
+
+=== Methods in Interfaces
+
+[source,javascript]
+----
+interface Person {
+    name: string;
+    age?: number;
+    [ myTempName: string ]: any;
+
+    print(name: string): void;
+}
+----
+
+=== Interfaces and Classes
+* classes implement interfaces with keyword _implements_ like in Java
+
+=== Function Types
+
+[source,javascript]
+----
+interface DoubleValueFunc {
+    (number1: number, number2: number): number;
+}
+
+let myDoubleValuedFunction: DoubleValueFunc;
+myDoubleValuedFunction = function(number1: number, number2: number) {
+    return number1 + number2;
+}
+myDoubleValuedFunction(1,2);        // 3
+----
+
+* "Whatever uses this interface must be a function of this type"
+
+=== Interface Inheritance
+[source,javascript]
+----
+interface Person {
+    name: string;
+}
+
+interface ExtendedPerson extends Person {
+    mail: string;
+}
+----
 
 == Features
 
