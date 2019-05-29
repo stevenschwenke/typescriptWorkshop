@@ -43,6 +43,13 @@ npm -g install typescript
 tsc script
 ----
 
+* watch-mode = compile every change automatically:
+
+[source, terminal]
+----
+tsc -w
+----
+
 == Setup for this workshop
 * put project folder under control of NPM:
 [source, terminal]
@@ -655,6 +662,125 @@ interface Person {
 interface ExtendedPerson extends Person {
     mail: string;
 }
+----
+
+== Generics
+
+[source,javascript]
+----
+function myGenericFunction<T>(data: T) {
+    return data;
+}
+
+myGenericFunction(42);                  // T = number
+myGenericFunction<number>(42);          // T = number
+myGenericFunction<number>("42");        // error
+myGenericFunction("blubber");           // T = string
+myGenericFunction<string>("blubber");   // T = string
+myGenericFunction<string>(42);          // error
+----
+
+=== Built-in Generics
+
+[source,javascript]
+----
+const bla: Array<number> = [1, 2];
+
+bla.push(3);         // OK
+bla.push("3");       // error
+----
+
+=== Generic Types
+
+* the following declares a constant _echo_ which is of type _<T>(data: T) => T_ which is assigned to the function _myGenericFunction_ from above, which has this signature
+
+[source,javascript]
+----
+const echo: <T>(data: T) => T = myGenericFunction;
+
+echo("Bla");
+----
+
+=== Generic Classes
+
+* simple example:
+
+[source,javascript]
+----
+class SimpleMath<T extends number> {
+
+    baseValue: T;
+    multiplyValue: T;
+
+    calculate(): number {
+
+        // the pluses cast this.baseValue and this.multiplyValue to numbers
+        return +this.baseValue * +this.multiplyValue;
+    }
+}
+
+const simpleMath = new SimpleMath<number>();
+
+simpleMath.baseValue = 10;              // OK
+simpleMath.baseValue = "10";            // error
+simpleMath.multiplyValue = 20;          // OK
+
+simpleMath.calculate();
+----
+
+* example with more than one type:
+
+[source,javascript]
+----
+// T should be of type number or string
+class SimpleMath<T extends number | string> {
+
+    baseValue: T;
+    multiplyValue: T;
+
+    calculate(): number {
+
+        // the pluses cast this.baseValue and this.multiplyValue to numbers
+        return +this.baseValue * +this.multiplyValue;
+    }
+}
+
+const simpleMath = new SimpleMath<number>();
+
+simpleMath.baseValue = 10;              // error
+simpleMath.baseValue = "10";            // OK
+simpleMath.multiplyValue = "20";        // OK
+
+// This will yield the correct result because the strings above are casted automatically.
+// However, passing stings like "blubber" will result in "NaN".
+simpleMath.calculate();
+----
+
+* example with multiple types:
+
+* example with more than one type:
+
+[source,javascript]
+----
+class SimpleMath<T extends number | string, U extends number | string> {
+
+    baseValue: T;
+    multiplyValue: U;
+
+    calculate(): number {
+
+        // the pluses cast this.baseValue and this.multiplyValue to numbers
+        return +this.baseValue * +this.multiplyValue;
+    }
+}
+
+const simpleMath = new SimpleMath<number>();
+
+simpleMath.baseValue = 10;              // OK
+simpleMath.baseValue = "10";            // error because baseValue already determined to be a number
+simpleMath.multiplyValue = "20";        // OK
+
+simpleMath.calculate();
 ----
 
 == Features
