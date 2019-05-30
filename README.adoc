@@ -4,7 +4,7 @@
 :sectnums:
 :imagesdir: images
 
-These are notes and code snippets from the Udemy Workshop https://www.udemy.com/course/understanding-typescript/[Understanding TypeScript]. Although this repository here uses code snippets from the Udemy Workshop, the original course is very much recommended.
+These are notes and code snippets from the Udemy Workshop https://www.udemy.com/course/understanding-typescript/[Understanding TypeScript]. Although this repository here uses code snippets from the Udemy Workshop, the original course is very much recommended because it's great and has additionally sections not covered in this repository like workflows with gulp and webpack and using TypeScript together with ReactJS.
 
 I left out some explanations and examples because for me as a Java developer, TypeScript is very similar to Java. Hence, this is not a workshop to learn TypeScript from scratch without knowing at least one other object oriented language.
 
@@ -118,10 +118,10 @@ myArray = ["42"];            // OK
 
 let myArray: string[] = ["bla", "blubber"];     // explicit array of strings
 
-// tuples = new type in TypeScript (not available in JavaScript)
+// Tuples = new type in TypeScript (not available in JavaScript)
 let address: [string, number] = ["aString", 42];
 
-// enum
+// Enum
 enum Color {
     Red,
     Green,
@@ -140,7 +140,7 @@ enum Color {
 let blubber: any = "aString";
 blubber = 42;           // OK
 
-//functions
+// Functions
 function getSomeString(): string {
     return "some string";
 }
@@ -149,12 +149,12 @@ function noReturnValue(): void {
     //return "some string";       // error because no return expected
 }
 
-// argument types
+// Argument Types
 function myFunction(v1: number, v2: number): number {
     return v1 + v2;
 }
 
-// function types
+// Function Types
 let myFunctionAsAVariable: (val1: number, val2: number) => number;
 myFunctionAsAVariable = myFunction;
 myFunctionAsAVariable(1, 2);
@@ -162,7 +162,7 @@ myFunctionAsAVariable(1, 2);
  let myFunctionAsAVariable2: () => void;
  myFunctionAsAVariable2 = noReturnValue;
 
-// objects
+// Objects
 let myData = {
     aString: "myString",
     aNumber: 42
@@ -182,7 +182,7 @@ let myData: {aString: string, aNumber: number} = {
     aNumber: 42
 };
 
-// type alias
+// Type Alias
 // = storing a type; alternative  to class
 type MyType = {aString: string, aNumber: number};
 let x: MyType = {
@@ -190,7 +190,7 @@ let x: MyType = {
     aNumber: 12
 }
 
-// union types
+// Union Types
 // sometimes more than one type should be appliable, but not just "any"
 let someUncertainInput: any = 12;
 someUncertainInput = "12"           // OK
@@ -200,13 +200,13 @@ let someUncertainInput2: number | string = 12;
 someUncertainInput2 = "12"           // OK
 //someUncertainInput2 = false          // error
 
-// check types
+// Check Types
 let value = "a string";
 if(typeof value == "string") {
     // ...
 }
 
-// new types (since TypeScript 2.0)
+// New Types (since TypeScript 2.0)
 // 1. "never", when a function never returns:
 function neverReturns(): never {
     throw new Error("blubber");
@@ -266,10 +266,25 @@ anything = 12;
 == ES6
 * TypeScript supports many features of ES6
 
-=== let & const
-* _var_ = global scope, around since JavaScript, don't use!
-* _let_ = block-scoped = only visible inside block
-* _const_ = constant, not changable
+=== Variable Declaration: var, let, const
+* three options for declaring variable: var, let, const
+
+==== var
+* spoiler alert: least preferable from the three options
+* traditional the way to declare a variable in JavaScript
+* available in TypeScript because TypeScript = superset of JavaScript
+* some odd "features" like "var-scoping": declarations of var are accessible anywhere, even globally. Details see https://www.typescriptlang.org/docs/handbook/variable-declarations.html[here]
+* global scope
+
+==== let
+* introduced because of the problems with var
+* block-scoped = not visible outside of the block _let_ was defined in
+* behavior = expected behavior when coming from Java
+
+==== const
+* = augmentation of _let_; prevents re-assignment
+* principle of least privilege: _const_ should be used whenever re-assignment of variable is not intended
+
 
 [source,javascript]
 ----
@@ -433,6 +448,33 @@ class Person {
 
 const person = new Person("Peter", "peter");
 ----
+
+=== Automatic Creation of Properties
+* instead of writing this:
+
+[source]
+----
+export class Ingredient {
+    public name: string;
+    public amount: number;
+
+    constructor(name: string, amount: number) {
+      this.name = name;
+      this.amount = amount;
+    }
+  }
+----
+
+* ... this can be written with the same result:
+[source]
+----
+export class Ingredient {
+
+  constructor(public name: string, public amount: number) {
+  }
+}
+----
+* properties will be automatically created and assigned with the parameters of the constructor
 
 === Inheritance
 [source,javascript]
@@ -934,50 +976,3 @@ const course = new Course();
 course.printStudentNumbers(true);
 ----
 
-
-== Features
-
-=== Automatic Creation of Properties
-* instead of writing this:
-
-[source]
-----
-export class Ingredient {
-    public name: string;
-    public amount: number;
-
-    constructor(name: string, amount: number) {
-      this.name = name;
-      this.amount = amount;
-    }
-  }
-----
-
-* ... this can be written with the same result:
-[source]
-----
-export class Ingredient {
-
-  constructor(public name: string, public amount: number) {
-  }
-}
-----
-* properties will be automatically created and assigned with the parameters of the constructor
-
-=== Variable Declaration: var, let, const
-* three options for declaring variable: var, let, const
-
-==== var
-* spoiler alert: least preferable from the three options
-* traditional the way to declare a variable in JavaScript
-* available in TypeScript because TypeScript = superset of JavaScript
-* some odd "features" like "var-scoping": declarations of var are accessible anywhere, even globally. Details see https://www.typescriptlang.org/docs/handbook/variable-declarations.html[here]
-
-==== let
-* introduced because of the problems with var
-* block-scoped = not visible outside of the block let was defined in
-* behavior = expected behavior when coming from Java
-
-==== const
-* = augmentation of let; prevents re-assignment
-* principle of least privilege: const should be used whenever re-assignment of variable is not intended
